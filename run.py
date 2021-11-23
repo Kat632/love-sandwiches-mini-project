@@ -42,7 +42,6 @@ def validate_data(values):
     Raises ValueError if strings cannot be converted into int,
     or if there aren't exactly six values.
     """
-    print(values)
     try:
         [int(value) for value in values]
         if len(values) != 6:
@@ -83,7 +82,21 @@ Update the relevant worksheet with the data provided
     worksheet_to_update = SHEET.worksheet(worksheet)
     worksheet_to_update.append_row(data)
     print(f"{worksheet} worksheet updated successfully\n")
-    
+
+def get_last_5_entries_sales():
+    """
+    Collects columns of data from sales worksheet, collecting
+    the last 5 entries for each sandwich and returns the data
+    as a list of lists
+    """
+    sales = SHEET.worksheet("sales")
+
+    columns = []
+    for ind in range(1, 7):
+        column = sales.col_values(ind)
+        columns.append(column[-5:])
+    return columns
+
 def main():
     """
     Run all program functions
@@ -93,7 +106,8 @@ def main():
     update_worksheet(sales_data, "sales")
     new_surplus_data = calculate_surplus_data(sales_data)
     update_worksheet(new_surplus_data, "surplus")
-    print(new_surplus_data)
 
 print("Welcome to Love Sandwiches Data Automation")
-main()
+#main()
+
+get_last_5_entries_sales()
